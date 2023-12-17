@@ -1,0 +1,16 @@
+We was meet siddaththa thero. after that he said his want to thing. Firstly our group member wanted gather requirement document. He was  to problem. He hasn't to vehicle rejester system and work balance system. we was gather to document and after we went to meet next time with the document. after that he had to EXEL sheet document. That is a about the vehicle data.  we add to attributes and entity relation scheema. we was thinked it's a very good.
+
+After that my group started grow ER diagram. because we create document had wrong attributes, we added  wrong attribute type , some relation type are wrong. there is had big problem. we added to derivede attributes so wrong. after that we was corrected there are had to problem.
+
+we was drowed ER diagram not add to week entity. after that we was corrected that problems.
+
+we was write to relation scheme so we did it's a good side.
+
+We was had next part a mapping. It's a dificult work but our group member did it. after submit time we was checked  the mapping. some table we are not add forign key and some table not the arrows. very badd work. after that we are corrected befor normalization.
+
+We had that table normalization. so we was did so good. some time it's a deficult more than other work.
+
+I think it will be easier for us to get the experience of doing projects like this when we go and work in the industry. There fore with this project it was possible to improve the unknown and known knowledge. I think that even if this project is not very useful, the mistakes made here can be minimized and the next projects can be done. 
+
+  
+				

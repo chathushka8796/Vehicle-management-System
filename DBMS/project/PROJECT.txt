@@ -1,0 +1,728 @@
+CREATE DATABASE VEHICLE_FLEET;
+
+USE VEHICLE_FLEET;
+
+  CREATE TABLE VEHICLE (
+    ->      VEHICLE_NO VARCHAR(10) PRIMARY KEY,
+    ->      INSUERANCE_NO VARCHAR(20) NOT NULL,
+    ->      VEHICLE_LSD VARCHAR(20) NOT NULL,
+    ->      VEHICLE_ISD VARCHAR(20) NOT NULL,
+    ->      LICENSE_NO VARCHAR(20) NOT NULL,
+    ->      CURRENT_LOCATION VARCHAR(50),
+    ->      VEHICLE_TYPE VARCHAR(20)
+    ->     );
+
+insert into VEHICLE(VEHICLE_NO,INSUERANCE_NO,VEHICLE_LSD,VEHICLE_ISD,LICENSE_NO,CURRENT_LOCATION,VEHICLE_TYPE) values
+    -> ('WP KK 4085','4596842','2023-01-12','2023-01-14','56578547','Ahangama','Car'),
+    -> ('WP KR 8562','4598562','2023-01-12','2023-01-14','56559845','Ahangama','Car'),
+    -> ('WP LG 5981','8956451','2023-01-14','2023-01-19','59856514','Ahangama','Lorry'),
+    -> ('WP BG 9862','9565421','2023-01-15','2023-01-18','78465621','Ahangama','Bus')
+    -> ;
+
+
+
+
+ CREATE TABLE FUEL(
+    -> FULE_TYPE VARCHAR(10) PRIMARY KEY,
+    -> QUANTITY INT(10) NOT NULL,
+    -> COST FLOAT(10) NOT NULL
+    -> );
+
+insert into FUEL values
+    -> ('Petrol',1,'315.00'),
+    -> ('Deisel',1,'350.00');
+
+
+
+
+ CREATE TABLE VEHICLE_FUEL(
+    -> VEHICLE_NO VARCHAR(10) ,
+    -> FULE_TYPE VARCHAR(10) ,
+    -> PRIMARY KEY ( FULE_TYPE,VEHICLE_NO)
+    -> );
+
+insert into VEHICLE_FUEL values
+    -> ('WP KK 4085','Petrol'),
+    -> ('WP KR 8562','Petrol'),
+    -> ('WP LG 5981','Deisel'),
+    -> ('WP BG 9862','Deisel');
+
+
+
+
+ CREATE TABLE DRIVER(
+    -> DRIVER_NIC VARCHAR(15) PRIMARY KEY,
+    -> DRIVER_NAME VARCHAR(50) NOT NULL,
+    -> DRIVER_IN VARCHAR(20),
+    -> DRIVER_LSD VARCHAR(20),
+    -> DOB DATE
+    -> );
+
+insert into DRIVER values
+    -> ('784526542V','Kamal','85465415','2020-06-08','1978-08-21');
+    -> ('694512485V','Nimal','98454133','2019-10-26','1969-04-16'),
+    -> ('826548563V','Ruksh','86656231','2021-03-20','1982-09-30'),
+    -> ('856564512V','Saman','51235412','2022-09-06','1985-03-26');
+
+
+
+
+ CREATE TABLE DRIVER_CONTACT(
+    -> DRIVER_NIC VARCHAR(15) ,
+    -> DRIVER_CONTACT VARCHAR(10),
+    -> PRIMARY KEY(DRIVER_NIC,DRIVER_CONTACT)
+    -> );
+
+insert into DRIVER_CONTACT values
+    -> ('694512485V','0775626312'),
+    -> ('784526542V','0715654849'),
+    -> ('826548563V','0786532314'),
+    -> ('856564512V','0743259842');
+
+
+
+
+
+CREATE TABLE DAILY_WORK(
+    -> WORK_NO INT(10) PRIMARY KEY AUTO_INCREMENT,
+    -> CAPACITY VARCHAR(10) NOT NULL,
+    -> DAY_LOCATION VARCHAR(50) NOT NULL
+    -> );
+
+insert into DAILY_WORK values
+    -> ('1','20km','Galle'),
+    -> ('2','29km','Galle'),
+    -> ('3','90km','Matara');
+
+
+
+
+
+  CREATE TABLE WORK_VEHICLE_DRIVER(
+    ->      TIME_NO INT(10) PRIMARY KEY AUTO_INCREMENT,
+    ->      ON_TIME TIME NOT NULL,
+    ->      OFF_TIME TIME NOT NULL,
+    ->      VEHICLE_NO VARCHAR(10),
+    ->      DRIVER_NIC VARCHAR(15),
+    ->      WORK_NO INT(10),
+    ->      FOREIGN KEY(VEHICLE_NO) REFERENCES VEHICLE(VEHICLE_NO),
+    ->      FOREIGN KEY(DRIVER_NIC) REFERENCES DRIVER(DRIVER_NIC),
+    ->      FOREIGN KEY(WORK_NO) REFERENCES DAILY_WORK(WORK_NO)
+    ->      );
+
+insert into WORK_VEHICLE_DRIVER(ON_TIME,OFF_TIME,VEHICLE_NO,DRIVER_NIC,WORK_NO) values
+    -> ('08.00','16.00','WP KR 8562','784526542V',1),
+    -> ('08.30','16.30','WP KK 4085','856564512V',3),
+    -> ('08.00','16.00','WP LG 5981','826548563V',2);
+
+
+
+
+
+ CREATE TABLE VEHICLE_MAINTENANCE(
+    ->      ENGIN_NO VARCHAR(50) PRIMARY KEY,
+    ->      MAINTENANCE_HD DATE,
+    ->      MAINTENANCE_TYPE VARCHAR(10),
+    ->      SERVICE_PROVIDER VARCHAR(50) ,
+    ->      DOS DATE ,
+    ->      MAINTAIN_COST FLOAT(10) NOT NULL,
+    ->      VEHICLE_NO VARCHAR(10),
+    ->      FOREIGN KEY(VEHICLE_NO) REFERENCES VEHICLE(VEHICLE_NO)
+    ->      );
+
+insert into VEHICLE_MAINTENANCE values
+    -> ('9566532145','2024-05-03','Service','Auto Miraj','2023-06-07','50000.00','WP KK 4085'),
+    -> ('5655236548','2023-12-06','Engine','Jaq Enterprice','2023-05-09','35000.00','WP LG 5981');
+
+
+
+
+
+CREATE TABLE SP_CONTACT(
+    -> ENGIN_NO VARCHAR(50),
+    -> SP_CONTACTNO VARCHAR(10),
+    -> PRIMARY KEY(ENGIN_NO,SP_CONTACTNO)
+    -> );
+
+insert into SP_CONTACT values
+    -> ('5655236548','0119862473'),
+    -> ('9566532145','0113678524');
+
+
+
+
+
+CREATE TABLE VEHICLE_TYPE(
+    -> VEHICLE_NO VARCHAR(10),
+    -> VEHICLE_TYPE VARCHAR(20),
+    -> PRIMARY KEY ( VEHICLE_NO, VEHICLE_TYPE)
+    -> );
+
+insert into VEHICLE_TYPE values
+    -> ('WP BG 9862','Bus'),
+    -> ('WP KK 4085','Car'),
+    -> ('WP KR 8562','Car'),
+    -> ('WP LG 5981','Lorry');
+
+
+
+
+
+
+CREATE TABLE RELATION_DETAILS(
+    -> FIRST_NAME VARCHAR(50) NOT NULL,
+    -> MIDLE_NAME VARCHAR(50) NOT NULL,
+    -> LAST_NAME VARCHAR(50) NOT NULL,
+    -> DRIVER_NIC VARCHAR(15) NOT NULL,
+    -> SCHOOL_NAME VARCHAR(100) NOT NULL,
+    -> DOB DATE ,
+    -> PRIMARY KEY( FIRST_NAME, MIDLE_NAME, LAST_NAME),
+    -> FOREIGN KEY (DRIVER_NIC) REFERENCES DRIVER (DRIVER_NIC)
+    -> );
+
+insert into RELATION_DETAILS values
+    -> ('Sadun','Sameera','Perera','694512485V','Galle College','2016-06=07'),
+    -> ('Krishan','Janith','Guruge','856564512V','Galle College','2014-10=18');
+
+
+
+
+
+-------------------------------------------------------------------------------
+
+Queries
+
+
+
+mysql> CREATE DATABASE VEHICLE_FLEET;
+Query OK, 1 row affected (0.01 sec)
+
+
+
+
+mysql> USE VEHICLE_FLEET;
+Database changed
+
+
+
+
+mysql> CREATE TABLE VEHICLE (
+    -> VEHICLE_NO VARCHAR(10) PRIMARY KEY,
+    -> INSUERANCE_NO VARCHAR(20) NOT NULL,
+    -> VEHICLE_LSD VARCHAR(20) NOT NULL,
+    -> VEHICLE_ISD VARCHAR(20) NOT NULL,
+    -> LICENSE_NO VARCHAR(20) NOT NULL,
+    -> CURRENT_LOCATION VARCHAR(50),
+    -> VEHICLE_TYPE VARCHAR(20)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> describe VEHICLE;
++------------------+-------------+------+-----+---------+-------+
+| Field            | Type        | Null | Key | Default | Extra |
++------------------+-------------+------+-----+---------+-------+
+| VEHICLE_NO       | varchar(10) | NO   | PRI | NULL    |       |
+| INSUERANCE_NO    | varchar(20) | NO   |     | NULL    |       |
+| VEHICLE_LSD      | varchar(20) | NO   |     | NULL    |       |
+| VEHICLE_ISD      | varchar(20) | NO   |     | NULL    |       |
+| LICENSE_NO       | varchar(20) | NO   |     | NULL    |       |
+| CURRENT_LOCATION | varchar(50) | YES  |     | NULL    |       |
+| VEHICLE_TYPE     | varchar(20) | YES  |     | NULL    |       |
++------------------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+
+
+
+
+mysql> CREATE TABLE FUEL(
+    -> FULE_TYPE VARCHAR(10) PRIMARY KEY,
+    -> QUANTITY INT(10) NOT NULL,
+    -> COST FLOAT(10) NOT NULL
+    -> );
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+mysql> describe FUEL;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| FULE_TYPE | varchar(10) | NO   | PRI | NULL    |       |
+| QUANTITY  | int         | NO   |     | NULL    |       |
+| COST      | float       | NO   |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+
+
+
+
+mysql> CREATE TABLE VEHICLE_FUEL(
+    -> VEHICLE_NO VARCHAR(10) ,
+    -> FULE_TYPE VARCHAR(10) ,
+    -> PRIMARY KEY ( FULE_TYPE,VEHICLE_NO)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> describe VEHICLE_FUEL;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| VEHICLE_NO | varchar(10) | NO   | PRI | NULL    |       |
+| FULE_TYPE  | varchar(10) | NO   | PRI | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+
+
+
+
+mysql> CREATE TABLE DRIVER(
+    -> DRIVER_NIC VARCHAR(15) PRIMARY KEY,
+    -> DRIVER_NAME VARCHAR(50) NOT NULL,
+    -> DRIVER_IN VARCHAR(20),
+    -> DRIVER_LSD VARCHAR(20),
+    -> DOB DATE
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> describe DRIVER;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| DRIVER_NIC  | varchar(15) | NO   | PRI | NULL    |       |
+| DRIVER_NAME | varchar(50) | NO   |     | NULL    |       |
+| DRIVER_IN   | varchar(20) | YES  |     | NULL    |       |
+| DRIVER_LSD  | varchar(20) | YES  |     | NULL    |       |
+| DOB         | date        | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+
+
+mysql> CREATE TABLE DRIVER_CONTACT(
+    -> DRIVER_NIC VARCHAR(15) ,
+    -> DRIVER_CONTACT VARCHAR(10),
+    -> PRIMARY KEY(DRIVER_NIC,DRIVER_CONTACT)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> describe DRIVER_CONTACT;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| DRIVER_NIC     | varchar(15) | NO   | PRI | NULL    |       |
+| DRIVER_CONTACT | varchar(10) | NO   | PRI | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+
+
+
+
+mysql> CREATE TABLE DAILY_WORK(
+    -> WORK_NO INT(10) PRIMARY KEY AUTO_INCREMENT,
+    -> CAPACITY VARCHAR(10) NOT NULL,
+    -> DAY_LOCATION VARCHAR(50) NOT NULL
+    -> );
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+mysql> describe DAILY_WORK;
++--------------+-------------+------+-----+---------+----------------+
+| Field        | Type        | Null | Key | Default | Extra          |
++--------------+-------------+------+-----+---------+----------------+
+| WORK_NO      | int         | NO   | PRI | NULL    | auto_increment |
+| CAPACITY     | varchar(10) | NO   |     | NULL    |                |
+| DAY_LOCATION | varchar(50) | NO   |     | NULL    |                |
++--------------+-------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+
+
+
+
+mysql> CREATE TABLE WORK_VEHICLE_DRIVER(
+    -> TIME_NO INT(10) PRIMARY KEY AUTO_INCREMENT,
+    -> ON_TIME TIME NOT NULL,
+    -> OFF_TIME TIME NOT NULL,
+    -> VEHICLE_NO VARCHAR(10),
+    -> DRIVER_NIC VARCHAR(15),
+    -> WORK_NO INT(10),
+    -> FOREIGN KEY(VEHICLE_NO) REFERENCES VEHICLE(VEHICLE_NO),
+    -> FOREIGN KEY(DRIVER_NIC) REFERENCES DRIVER(DRIVER_NIC),
+    -> FOREIGN KEY(WORK_NO) REFERENCES DAILY_WORK(WORK_NO)
+    -> );
+Query OK, 0 rows affected, 2 warnings (0.03 sec)
+
+mysql> describe WORK_VEHICLE_DRIVER;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| TIME_NO    | int         | NO   | PRI | NULL    | auto_increment |
+| ON_TIME    | time        | NO   |     | NULL    |                |
+| OFF_TIME   | time        | NO   |     | NULL    |                |
+| VEHICLE_NO | varchar(10) | YES  | MUL | NULL    |                |
+| DRIVER_NIC | varchar(15) | YES  | MUL | NULL    |                |
+| WORK_NO    | int         | YES  | MUL | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+6 rows in set (0.00 sec)
+
+
+
+
+
+mysql> CREATE TABLE VEHICLE_MAINTENANCE(
+    -> ENGIN_NO VARCHAR(50) PRIMARY KEY,
+    -> MAINTENANCE_HD DATE,
+    -> MAINTENANCE_TYPE VARCHAR(10),
+    -> SERVICE_PROVIDER VARCHAR(50) ,
+    -> DOS DATE ,
+    -> MAINTAIN_COST FLOAT(10) NOT NULL,
+    -> VEHICLE_NO VARCHAR(10),
+    -> FOREIGN KEY(VEHICLE_NO) REFERENCES VEHICLE(VEHICLE_NO)
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> describe VEHICLE_MAINTENANCE;
++------------------+-------------+------+-----+---------+-------+
+| Field            | Type        | Null | Key | Default | Extra |
++------------------+-------------+------+-----+---------+-------+
+| ENGIN_NO         | varchar(50) | NO   | PRI | NULL    |       |
+| MAINTENANCE_HD   | date        | YES  |     | NULL    |       |
+| MAINTENANCE_TYPE | varchar(10) | YES  |     | NULL    |       |
+| SERVICE_PROVIDER | varchar(50) | YES  |     | NULL    |       |
+| DOS              | date        | YES  |     | NULL    |       |
+| MAINTAIN_COST    | float       | NO   |     | NULL    |       |
+| VEHICLE_NO       | varchar(10) | YES  | MUL | NULL    |       |
++------------------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+
+
+
+
+mysql> CREATE TABLE SP_CONTACT(
+    -> ENGIN_NO VARCHAR(50),
+    -> SP_CONTACTNO VARCHAR(10),
+    -> PRIMARY KEY(ENGIN_NO,SP_CONTACTNO)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> describe SP_CONTACT;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| ENGIN_NO     | varchar(50) | NO   | PRI | NULL    |       |
+| SP_CONTACTNO | varchar(10) | NO   | PRI | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+
+
+
+
+mysql> CREATE TABLE VEHICLE_TYPE(
+    -> VEHICLE_NO VARCHAR(10),
+    -> VEHICLE_TYPE VARCHAR(20),
+    -> PRIMARY KEY ( VEHICLE_NO, VEHICLE_TYPE)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> describe VEHICLE_TYPE;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| VEHICLE_NO   | varchar(10) | NO   | PRI | NULL    |       |
+| VEHICLE_TYPE | varchar(20) | NO   | PRI | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+
+
+
+
+mysql> CREATE TABLE RELATION_DETAILS(
+    -> FIRST_NAME VARCHAR(50) NOT NULL,
+    -> MIDLE_NAME VARCHAR(50) NOT NULL,
+    -> LAST_NAME VARCHAR(50) NOT NULL,
+    -> DRIVER_NIC VARCHAR(15) NOT NULL,
+    -> SCHOOL_NAME VARCHAR(100) NOT NULL,
+    -> DOB DATE ,
+    -> PRIMARY KEY( FIRST_NAME, MIDLE_NAME, LAST_NAME),
+    -> FOREIGN KEY (DRIVER_NIC) REFERENCES DRIVER (DRIVER_NIC)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> describe RELATION_DETAILS;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| FIRST_NAME  | varchar(50)  | NO   | PRI | NULL    |       |
+| MIDLE_NAME  | varchar(50)  | NO   | PRI | NULL    |       |
+| LAST_NAME   | varchar(50)  | NO   | PRI | NULL    |       |
+| DRIVER_NIC  | varchar(15)  | NO   | MUL | NULL    |       |
+| SCHOOL_NAME | varchar(100) | NO   |     | NULL    |       |
+| DOB         | date         | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+
+
+
+
+
+
+
+mysql> insert into VEHICLE(VEHICLE_NO,INSUERANCE_NO,VEHICLE_LSD,VEHICLE_ISD,LICENSE_NO,CURRENT_LOCATION,VEHICLE_TYPE) values
+    -> ('WP KK 4085','4596842','2023-01-12','2023-01-14','56578547','Ahangama','Car'),
+    -> ('WP KR 8562','4598562','2023-01-12','2023-01-14','56559845','Ahangama','Car'),
+    -> ('WP LG 5981','8956451','2023-01-14','2023-01-19','59856514','Ahangama','Lorry'),
+    -> ('WP BG 9862','9565421','2023-01-15','2023-01-18','78465621','Ahangama','Bus')
+    -> ;
+Query OK, 4 rows affected (0.04 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+
+mysql> select * from VEHICLE;
++------------+---------------+-------------+-------------+------------+------------------+--------------+
+| VEHICLE_NO | INSUERANCE_NO | VEHICLE_LSD | VEHICLE_ISD | LICENSE_NO | CURRENT_LOCATION | VEHICLE_TYPE |
++------------+---------------+-------------+-------------+------------+------------------+--------------+
+| WP BG 9862 | 9565421       | 2023-01-15  | 2023-01-18  | 78465621   | Ahangama         | Bus          |
+| WP KK 4085 | 4596842       | 2023-01-12  | 2023-01-14  | 56578547   | Ahangama         | Car          |
+| WP KR 8562 | 4598562       | 2023-01-12  | 2023-01-14  | 56559845   | Ahangama         | Car          |
+| WP LG 5981 | 8956451       | 2023-01-14  | 2023-01-19  | 59856514   | Ahangama         | Lorry        |
++------------+---------------+-------------+-------------+------------+------------------+--------------+
+4 rows in set (0.00 sec)
+
+
+
+
+
+mysql> insert into FUEL values
+    -> ('Petrol',1,'315.00'),
+    -> ('Deisel',1,'350.00');
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from FUEL;
++-----------+----------+------+
+| FULE_TYPE | QUANTITY | COST |
++-----------+----------+------+
+| Deisel    |        1 |  350 |
+| Petrol    |        1 |  315 |
++-----------+----------+------+
+2 rows in set (0.00 sec)
+
+
+
+
+
+mysql> insert into VEHICLE_FUEL values
+    -> ('WP KK 4085','Petrol'),
+    -> ('WP KR 8562','Petrol'),
+    -> ('WP LG 5981','Deisel'),
+    -> ('WP BG 9862','Deisel');
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+
+mysql> select * from VEHICLE_FUEL;
++------------+-----------+
+| VEHICLE_NO | FULE_TYPE |
++------------+-----------+
+| WP BG 9862 | Deisel    |
+| WP LG 5981 | Deisel    |
+| WP KK 4085 | Petrol    |
+| WP KR 8562 | Petrol    |
++------------+-----------+
+4 rows in set (0.00 sec)
+
+
+
+
+
+mysql> insert into DRIVER values
+    -> ('784526542V','Kamal','85465415','2020-06-08','1978-08-21');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into DRIVER values
+    -> ('694512485V','Nimal','98454133','2019-10-26','1969-04-16'),
+    -> ('826548563V','Ruksh','86656231','2021-03-20','1982-09-30'),
+    -> ('856564512V','Saman','51235412','2022-09-06','1985-03-26');
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+
+mysql> select * from DRIVER;
++------------+-------------+-----------+------------+------------+
+| DRIVER_NIC | DRIVER_NAME | DRIVER_IN | DRIVER_LSD | DOB        |
++------------+-------------+-----------+------------+------------+
+| 694512485V | Nimal       | 98454133  | 2019-10-26 | 1969-04-16 |
+| 784526542V | Kamal       | 85465415  | 2020-06-08 | 1978-08-21 |
+| 826548563V | Ruksh       | 86656231  | 2021-03-20 | 1982-09-30 |
+| 856564512V | Saman       | 51235412  | 2022-09-06 | 1985-03-26 |
++------------+-------------+-----------+------------+------------+
+4 rows in set (0.00 sec)
+
+
+
+
+
+mysql> insert into DRIVER_CONTACT values
+    -> ('694512485V','0775626312'),
+    -> ('784526542V','0715654849'),
+    -> ('826548563V','0786532314'),
+    -> ('856564512V','0743259842');
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+
+mysql> select * from DRIVER_CONTACT;
++------------+----------------+
+| DRIVER_NIC | DRIVER_CONTACT |
++------------+----------------+
+| 694512485V | 0775626312     |
+| 784526542V | 0715654849     |
+| 826548563V | 0786532314     |
+| 856564512V | 0743259842     |
++------------+----------------+
+4 rows in set (0.00 sec)
+
+
+
+
+
+mysql> insert into DAILY_WORK values
+    -> ('1','20km','Galle'),
+    -> ('2','29km','Galle'),
+    -> ('3','90km','Matara');
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+
+mysql> select * from DAILY_WORK;
++---------+----------+--------------+
+| WORK_NO | CAPACITY | DAY_LOCATION |
++---------+----------+--------------+
+|       1 | 20km     | Galle        |
+|       2 | 29km     | Galle        |
+|       3 | 90km     | Matara       |
++---------+----------+--------------+
+3 rows in set (0.00 sec)
+
+
+
+
+
+mysql> insert into WORK_VEHICLE_DRIVER(ON_TIME,OFF_TIME,VEHICLE_NO,DRIVER_NIC,WORK_NO) values
+    -> ('08.00','16.00','WP KR 8562','784526542V',1),
+    -> ('08.30','16.30','WP KK 4085','856564512V',3),
+    -> ('08.00','16.00','WP LG 5981','826548563V',2);
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+
+mysql> select * from WORK_VEHICLE_DRIVER;
++---------+----------+----------+------------+------------+---------+
+| TIME_NO | ON_TIME  | OFF_TIME | VEHICLE_NO | DRIVER_NIC | WORK_NO |
++---------+----------+----------+------------+------------+---------+
+|       5 | 00:00:08 | 00:00:16 | WP KR 8562 | 784526542V |       1 |
+|       6 | 00:00:08 | 00:00:16 | WP KK 4085 | 856564512V |       3 |
+|       7 | 00:00:08 | 00:00:16 | WP LG 5981 | 826548563V |       2 |
++---------+----------+----------+------------+------------+---------+
+3 rows in set (0.00 sec)
+
+
+
+
+
+mysql> insert into VEHICLE_MAINTENANCE values
+    -> ('9566532145','2024-05-03','Service','Auto Miraj','2023-06-07','50000.00','WP KK 4085'),
+    -> ('5655236548','2023-12-06','Engine','Jaq Enterprice','2023-05-09','35000.00','WP LG 5981');
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from VEHICLE_MAINTENANCE;
++------------+----------------+------------------+------------------+------------+---------------+------------+
+| ENGIN_NO   | MAINTENANCE_HD | MAINTENANCE_TYPE | SERVICE_PROVIDER | DOS        | MAINTAIN_COST | VEHICLE_NO |
++------------+----------------+------------------+------------------+------------+---------------+------------+
+| 5655236548 | 2023-12-06     | Engine           | Jaq Enterprice   | 2023-05-09 |         35000 | WP LG 5981 |
+| 9566532145 | 2024-05-03     | Service          | Auto Miraj       | 2023-06-07 |         50000 | WP KK 4085 |
++------------+----------------+------------------+------------------+------------+---------------+------------+
+2 rows in set (0.00 sec)
+
+
+
+
+
+mysql> insert into SP_CONTACT values
+    -> ('5655236548','0119862473'),
+    -> ('9566532145','0113678524');
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+
+mysql> select * from SP_CONTACT;
++------------+--------------+
+| ENGIN_NO   | SP_CONTACTNO |
++------------+--------------+
+| 5655236548 | 0119862473   |
+| 9566532145 | 0113678524   |
++------------+--------------+
+2 rows in set (0.00 sec)
+
+
+
+
+
+mysql> insert into VEHICLE_TYPE values
+    -> ('WP BG 9862','Bus'),
+    -> ('WP KK 4085','Car'),
+    -> ('WP KR 8562','Car'),
+    -> ('WP LG 5981','Lorry');
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+
+mysql> select * from VEHICLE_TYPE;
++------------+--------------+
+| VEHICLE_NO | VEHICLE_TYPE |
++------------+--------------+
+| WP BG 9862 | Bus          |
+| WP KK 4085 | Car          |
+| WP KR 8562 | Car          |
+| WP LG 5981 | Lorry        |
++------------+--------------+
+4 rows in set (0.00 sec)
+
+
+
+
+
+mysql> insert into RELATION_DETAILS values
+    -> ('Sadun','Sameera','Perera','694512485V','Galle College','2016-06=07'),
+    -> ('Krishan','Janith','Guruge','856564512V','Galle College','2014-10=18');
+Query OK, 2 rows affected, 2 warnings (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 2
+
+
+mysql> select * from RELATION_DETAILS;
++------------+------------+-----------+------------+---------------+------------+
+| FIRST_NAME | MIDLE_NAME | LAST_NAME | DRIVER_NIC | SCHOOL_NAME   | DOB        |
++------------+------------+-----------+------------+---------------+------------+
+| Krishan    | Janith     | Guruge    | 856564512V | Galle College | 2014-10-18 |
+| Sadun      | Sameera    | Perera    | 694512485V | Galle College | 2016-06-07 |
++------------+------------+-----------+------------+---------------+------------+
+2 rows in set (0.00 sec)
+
+
+
+VEHICLE FLEET DATABASE ,TABLES AND QUERY
+
+Group Members Names
+
+● E.B.M Ellawala 220100053
+● E.A Akila Madhushan 220100058
+● H.J.I.A Gunathilaka 220100050
+● I.B.A.R Siriwardhana 220100102
+● A.M.C lahiru 220100081
+● K.H.W.D.M Chamod 220100062
