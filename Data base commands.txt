@@ -1,0 +1,15 @@
+*in a one to one relation, one primary key is transfered to the other. the transfered key become
+a foreign key.
+*
+
+
+					mySQL Commands 
+-------------------------------------------------------------------------------------------------------------------------------------
+show databases; 										-----> shows all the available databases
+create database "database name"; 								-----> create/add new database to the list 
+use "database name"; 										-----> change the database
+drop table "table name";									-----> delete the table
+describe "table name"										-----> describe the named table
+insert into "table name" values('n','..)							-----> insert values in to the table
+select * from "table name";									-----> show the updated table
+update "table name" set "table column name" = " 'new value' " where "column name" = "'row name'"; -----> update a value in a table.
