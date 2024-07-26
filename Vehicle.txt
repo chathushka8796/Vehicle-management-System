@@ -1,0 +1,127 @@
+Enter password: ****************
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.33 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| company            |
+| company1           |
+| company2           |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+9 rows in set (0.09 sec)
+
+mysql> create database vehicle care;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'care' at line 1
+mysql> create database vehicle_care;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| company            |
+| company1           |
+| company2           |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| vehicle_care       |
+| world              |
++--------------------+
+10 rows in set (0.00 sec)
+
+mysql> use vehicle_care;
+Database changed
+mysql> create table Sale(
+    -> s_code int,iy6h
+    ->
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 2
+mysql> create table Sale(
+    -> s_code int,
+    -> s_name varchar(255)
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> create table Service(
+    -> v_code int,
+    -> s_code int,
+    -> date int,
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 5
+mysql> create table Service(
+    -> v_code int,
+    -> s_code int,
+    -> date int
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create table Vehcle(
+    -> v_code int,
+    -> brand varchar(255),
+    -> type(255)
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(255)
+)' at line 4
+mysql> create table Vehicle(
+    -> v_code int,
+    -> s_code varchar(255),
+    -> jxbsqjhxjqhlhxk-]0=0-9-;;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-]0=0-9-' at line 4
+ERROR:
+No query specified
+
+mysql> create table Vehicle(
+    -> v_code int,
+    -> brand varchar(255),
+    -> type varchar(255)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> describe Vehicle;
++--------+--------------+------+-----+---------+-------+
+| Field  | Type         | Null | Key | Default | Extra |
++--------+--------------+------+-----+---------+-------+
+| v_code | int          | YES  |     | NULL    |       |
+| brand  | varchar(255) | YES  |     | NULL    |       |
+| type   | varchar(255) | YES  |     | NULL    |       |
++--------+--------------+------+-----+---------+-------+
+3 rows in set (0.02 sec)
+
+mysql> describe Sale;
++--------+--------------+------+-----+---------+-------+
+| Field  | Type         | Null | Key | Default | Extra |
++--------+--------------+------+-----+---------+-------+
+| s_code | int          | YES  |     | NULL    |       |
+| s_name | varchar(255) | YES  |     | NULL    |       |
++--------+--------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> insert into Sale(s_code,s_name)
+    -> values('s01','Kavindu Enterprises'
+    -> );
+ERROR 1366 (HY000): Incorrect integer value: 's01' for column 's_code' at row 1
+mysql> insert Sale(s_code,s_name)
+    -> values(s01,'Kavindu Enterprises')
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 3
+mysql>
